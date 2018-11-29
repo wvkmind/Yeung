@@ -64,3 +64,5 @@ gem 'delayed_job', '~> 4.1', '>= 4.1.5'
 gem 'delayed_job_active_record', '~> 4.1', '>= 4.1.3'
 
 gem 'daemons', '~> 1.2', '>= 1.2.6'
+
+gem 'rack-cors', '~> 1.0', '>= 1.0.2'
