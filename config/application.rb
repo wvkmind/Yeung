@@ -18,6 +18,8 @@ module Yeung
 
     config.enable_dependency_loading = true
     config.eager_load_paths << Rails.root.join('app/entities')
+    config.eager_load_paths << Rails.root.join('app/api')
+    
     
   end
 end

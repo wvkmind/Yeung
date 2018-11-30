@@ -3,9 +3,11 @@ class API < Grape::API
     format :json
     prefix :api
     include User::LoginApi
+    include User::UserApi
     include EntitiesBoot
     SKIP_AUTH = Set.new([
-        "/api/v1/user_login/register"
+        "/api/v1/user_login/register",
+        "/api/v1/user_login/login"
     ])
     helpers do
         def check_user_session
