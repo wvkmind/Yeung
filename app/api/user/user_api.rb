@@ -3,13 +3,8 @@ module User::UserApi
         api.namespace :user do 
             desc 'User list'
             get nil do
-                ps = User::UserHelper.generate_password(params[:password])
-                user = User::User.create({
-                    account:"admin",
-                    hashed_password:ps[:hash_password].to_s,
-                    salt:ps[:salt].to_s
-                })
-                User::LoginEntities::Register.represent(user).as_json
+                a = User::User.all
+                User::UserEntities::List.represent(a).as_json
             end
         end
     end

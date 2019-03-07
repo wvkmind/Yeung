@@ -2,11 +2,11 @@ class API < Grape::API
     version 'v1', :using => :path, :vendor => 'yeung'
     format :json
     prefix :api
+    include EntitiesBoot
     include User::LoginApi
     include User::UserApi
-    include EntitiesBoot
+    include User::PermissionApi
     SKIP_AUTH = Set.new([
-        "/api/v1/user_login/register",
         "/api/v1/user_login/login"
     ])
     helpers do
@@ -23,7 +23,7 @@ class API < Grape::API
             if token.nil?
                 return false
             end
-            token = Base64.decode64 token.split(' ')[1]
+            token = Base64.decode64 token
             account, id = token.split(':')
             session = User::Session.exists?(['account=? and token=?', account, id])
             unless session.blank?
@@ -40,7 +40,7 @@ class API < Grape::API
         unless SKIP_AUTH.include?(request.path)
         
             if check_user_session
-                return true
+                
             else
                 render json: {status: 'FAILURE', error: 'NOTLOGIN'}
             end

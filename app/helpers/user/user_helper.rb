@@ -3,10 +3,11 @@ module User::UserHelper
         raise('Account or password not provied.') if account.blank? or password.blank?
         user = User::User.where('account=?', account).take
         raise('Account doesnot exists.') if user.nil?
-        
+        raise('Account deleted.') if user.deleted?
         hashed_password = hash_password password, user.salt
         if bytes_equal? hashed_password.bytes, user.hashed_password.bytes
           token = SecureRandom.uuid
+          User::User.current=user
           User::Session.update_session(account, token)
         else
           raise('Wrong password.')
